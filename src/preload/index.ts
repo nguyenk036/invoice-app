@@ -3,7 +3,7 @@ import { electronAPI } from '@electron-toolkit/preload'
 import { listClients, createClient } from '../../db/clientManager'
 
 // Custom APIs for renderer
-const api = {}
+const api = { listClients: listClients, createClient: createClient }
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
@@ -12,10 +12,6 @@ if (process.contextIsolated) {
   try {
     contextBridge.exposeInMainWorld('electron', electronAPI)
     contextBridge.exposeInMainWorld('api', api)
-    contextBridge.exposeInMainWorld('db', {
-      listClients: listClients,
-      createClient: createClient
-    })
   } catch (error) {
     console.error(error)
   }

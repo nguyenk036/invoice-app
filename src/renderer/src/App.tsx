@@ -1,25 +1,29 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import electronLogo from './assets/electron.svg'
 import '@mantine/core/styles.css'
-import { Button, MantineProvider, Title } from '@mantine/core'
+import { Button, MantineProvider } from '@mantine/core'
+import { redirect, useNavigate } from 'react-router-dom'
+import { MouseEventHandler } from 'react'
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
+  const navigate = useNavigate()
 
-  const listClients = async (): Promise<object> => {
-    console.log(window.db)
-    return await window.db.listClients()
-  }
+  // const listClients = async (): Promise<object> => {
+  //   console.log(window.api)
+  //   return await window.api.listClients()
+  // }
 
-  const createClient = async () => await window.db.createClient('Kevin', 'N', `test`)
+  // const createClient = async (): Promise<void> => await window.api.createClient('kevin')
+  const navigateClients: MouseEventHandler<HTMLButtonElement> = () => navigate('/clients')
 
   return (
-    <MantineProvider>
-      <Title>Invoice App</Title>
+    <>
       <img alt="logo" className="logo" src={electronLogo} />
-      <Button onClick={listClients}>Get Clients</Button>
-      <Button onClick={createClient}>Create Test Client</Button>
-    </MantineProvider>
+      <Button variant="gradient" onClick={navigateClients}>
+        Clients
+      </Button>
+    </>
   )
 }
 
