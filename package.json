@@ -26,8 +26,10 @@
     "@mantine/core": "^7.6.2",
     "@mantine/hooks": "^7.6.2",
     "@types/better-sqlite3": "^7.6.9",
+    "@types/react-router-dom": "^5.3.3",
     "better-sqlite3": "^9.4.3",
-    "electron-updater": "^6.1.7"
+    "electron-updater": "^6.1.7",
+    "react-router-dom": "^6.22.3"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
