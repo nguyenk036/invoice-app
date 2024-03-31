@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import electronLogo from './assets/electron.svg'
-import '@mantine/core/styles.css'
-import { Button, MantineProvider } from '@mantine/core'
-import { redirect, useNavigate } from 'react-router-dom'
+import { Button } from '@mantine/core'
+import { useNavigate } from 'react-router-dom'
 import { MouseEventHandler } from 'react'
 
 function App(): JSX.Element {
