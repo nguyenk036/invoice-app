@@ -16,13 +16,16 @@ const ClientManagement = (): JSX.Element => {
   return (
     <>
       <Title>Client Management</Title>
-      <Button onClick={navigateHome}>Back</Button>
+      <Button variant="gradient" onClick={navigateHome}>
+        Back
+      </Button>
+      <Button>Add Client</Button>
       <Grid my="lg">
         {clients.map((client) => (
-          <Grid.Col span={4} key={client.firstName}>
-            <Tooltip label={`${client.firstName} ${client.lastName}`} withArrow>
+          <Grid.Col span={4} key={client.first}>
+            <Tooltip label={`${client.first} ${client.last}`} withArrow>
               <Avatar src={null} m="md" size="lg">
-                {client.firstName.charAt(0)}
+                {client.first.charAt(0)}
               </Avatar>
             </Tooltip>
           </Grid.Col>

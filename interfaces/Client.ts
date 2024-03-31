@@ -1,5 +1,11 @@
 export interface IClient {
-  firstName: string
-  lastName?: string
+  first: string
+  last: string
   email?: string
+  address?: string
+  zip?: string
+  company?: string
+  city?: string
+  state?: string
+  phone?: string
 }
