@@ -12,7 +12,7 @@ export const listClients = (): IClient[] => {
 
 export const createClient = (first: string, last: string, email: string): void => {
   const query: string = `INSERT INTO Client
-    (firstName, lastName, email)
-    VALUES('${first}', '${last}', '${email}')`
+  ("first", "last", email, address, zip, company, city, state, phone)
+  VALUES('', '', '', '', '', '', '', '', '');`
   db.exec(query)
 }

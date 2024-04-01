@@ -1,9 +1,19 @@
-import { TextInput } from '@mantine/core'
+import { Button, TextInput } from '@mantine/core'
 import { UseFormReturnType, useForm } from '@mantine/form'
 import { IClient } from 'interfaces/Client'
+import { MouseEventHandler } from 'react'
+import { NavigateFunction, useNavigate } from 'react-router-dom'
 
-const CreateEditClient = (client?: IClient): JSX.Element => {
-  const form: UseFormReturnType<IClient> = useForm({
+interface IProps {
+  client?: IClient
+}
+
+const CreateEditClient = (props: IProps): JSX.Element => {
+  const { client } = props
+  const navigate: NavigateFunction = useNavigate()
+  const handleNavigateHome: MouseEventHandler<HTMLButtonElement> = () => navigate('/')
+
+  const form: UseFormReturnType<IClient> = useForm<IClient>({
     initialValues: {
       first: client?.first ?? '',
       last: client?.last ?? '',
@@ -16,17 +26,34 @@ const CreateEditClient = (client?: IClient): JSX.Element => {
       phone: client?.phone ?? ''
     },
     validate: {
-      // Add validation
+      first: (v) => (v.length < 1 ? 'First name must be at least one character.' : null),
+      last: (v) => (v.length < 1 ? 'Last name must be at least one character.' : null)
     }
   })
   const handleSubmit = async (values: IClient): Promise<void> => {
-    // Submit API call
+    console.log(values)
+    form.validate()
   }
 
   return (
     <>
+      <Button onClick={handleNavigateHome} variant="gradient">
+        Back
+      </Button>
       <form onSubmit={form.onSubmit(handleSubmit)}>
-        <TextInput withAsterisk label="First name" />
+        {Object.keys(form.values).map((key: string) => (
+          <TextInput
+            label={key.charAt(0).toUpperCase() + key.slice(1)}
+            {...form.getInputProps(key)}
+            key={key}
+            withAsterisk={['first', 'last'].includes(key)}
+            m="sm"
+          />
+        ))}
+
+        <Button type="submit" variant="gradient">
+          Submit
+        </Button>
       </form>
     </>
   )
