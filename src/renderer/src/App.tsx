@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import electronLogo from './assets/electron.svg'
-import { Button } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { MouseEventHandler } from 'react'
 
@@ -18,10 +17,7 @@ function App(): JSX.Element {
 
   return (
     <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <Button variant="gradient" onClick={navigateClients}>
-        Clients
-      </Button>
+      <img alt="logo" className="logo m-6" src={electronLogo} />
     </>
   )
 }
