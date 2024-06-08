@@ -16,7 +16,7 @@ function App(): JSX.Element {
   const navigateClients: MouseEventHandler<HTMLButtonElement> = () => navigate('/clients')
 
   return (
-    <div className="flex h-dvh justify-center bg-gradient-to-b from-white to-slate-500 p-8">
+    <div className="flex justify-center">
       <Button onClick={navigateClients}>Clients</Button>
     </div>
   )
