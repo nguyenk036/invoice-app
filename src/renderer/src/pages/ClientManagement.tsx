@@ -1,4 +1,4 @@
-import { Avatar, Button, Grid, Title, Tooltip } from '@mantine/core'
+import { Button } from '@renderer/components/ui/button'
 import { IClient } from 'interfaces/Client'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
@@ -16,24 +16,17 @@ const ClientManagement = (): JSX.Element => {
   }, [])
 
   return (
-    <>
-      <Title>Client Management</Title>
-      <Button variant="gradient" onClick={handleNavigateHome}>
-        Back
+    <div>
+      <Button className="absolute rounded-full" onClick={handleNavigateHome}>
+        &larr;
       </Button>
-      <Button onClick={handleNavigateCreateEdit}>Add Client</Button>
-      <Grid my="lg">
-        {clients.map((client) => (
-          <Grid.Col span={4} key={client.first}>
-            <Tooltip label={`${client.first} ${client.last}`} withArrow>
-              <Avatar src={null} m="md" size="lg">
-                {client.first.charAt(0)}
-              </Avatar>
-            </Tooltip>
-          </Grid.Col>
+      <div className="w-full text-3xl text-center text-slate-500">Client Management</div>
+      <div>
+        {clients.map((client, i) => (
+          <div key={i}>{client.first.charAt(0)}</div>
         ))}
-      </Grid>
-    </>
+      </div>
+    </div>
   )
 }
 

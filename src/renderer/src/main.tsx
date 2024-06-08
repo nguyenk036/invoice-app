@@ -1,16 +1,14 @@
-import '@mantine/core/styles.css'
 import './assets/main.css'
 import React from 'react'
 import ReactDOM from 'react-dom/client'
 import App from './App'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import ClientManagement from './pages/ClientManagement'
-import { MantineProvider } from '@mantine/core'
-import CreateEditClient from './pages/CreateEditClient'
+import Layout from './layout'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <MantineProvider>
+    <Layout>
       <HashRouter basename="/">
         <Routes>
           <Route index path="/" element={<App />} />
@@ -18,6 +16,6 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
           <Route path="/clients/create" element={<CreateEditClient />} />
         </Routes>
       </HashRouter>
-    </MantineProvider>
+    </Layout>
   </React.StrictMode>
 )

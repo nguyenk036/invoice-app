@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import electronLogo from './assets/electron.svg'
-import { Button } from '@mantine/core'
 import { useNavigate } from 'react-router-dom'
 import { MouseEventHandler } from 'react'
+import { Button } from './components/ui/button'
 
 function App(): JSX.Element {
   // const ipcHandle = (): void => window.electron.ipcRenderer.send('ping')
@@ -17,12 +16,9 @@ function App(): JSX.Element {
   const navigateClients: MouseEventHandler<HTMLButtonElement> = () => navigate('/clients')
 
   return (
-    <>
-      <img alt="logo" className="logo" src={electronLogo} />
-      <Button variant="gradient" onClick={navigateClients}>
-        Clients
-      </Button>
-    </>
+    <div className="flex justify-center">
+      <Button onClick={navigateClients}>Clients</Button>
+    </div>
   )
 }
 
