@@ -23,6 +23,8 @@
   "dependencies": {
     "@electron-toolkit/preload": "^3.0.0",
     "@electron-toolkit/utils": "^3.0.0",
+    "@hookform/resolvers": "^3.6.0",
+    "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-slot": "^1.0.2",
     "@types/better-sqlite3": "^7.6.9",
     "@types/react-router-dom": "^5.3.3",
@@ -31,9 +33,11 @@
     "clsx": "^2.1.1",
     "electron-updater": "^6.1.7",
     "lucide-react": "^0.390.0",
+    "react-hook-form": "^7.52.0",
     "react-router-dom": "^6.22.3",
     "tailwind-merge": "^2.3.0",
-    "tailwindcss-animate": "^1.0.7"
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config-prettier": "^2.0.0",
