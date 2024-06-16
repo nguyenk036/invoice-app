@@ -16,3 +16,10 @@ export const createClient = (first: string, last: string, email: string): void =
   VALUES('', '', '', '', '', '', '', '', '');`
   db.exec(query)
 }
+
+export const getClient = (id: number) => {
+  const query: string = `SELECT * FROM Client WHERE id = ${id};`
+  const statement: Statement = db.prepare(query)
+  const response = statement.get() as IClient
+  return response
+}
