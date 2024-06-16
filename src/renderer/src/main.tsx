@@ -5,6 +5,7 @@ import App from './App'
 import { HashRouter, Route, Routes } from 'react-router-dom'
 import ClientManagement from './pages/ClientManagement'
 import Layout from './layout'
+import CreateEditClient from './pages/CreateEditClient'
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
