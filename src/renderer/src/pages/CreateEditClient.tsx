@@ -1,12 +1,13 @@
 import { IClient } from 'interfaces/Client'
 import { MouseEventHandler, useEffect, useState } from 'react'
-import { Form, useForm } from 'react-hook-form'
 import { NavigateFunction, useNavigate, useParams } from 'react-router-dom'
 import { z } from 'zod'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { FormControl, FormField, FormItem, FormLabel } from '@renderer/components/ui/form'
+import { Form, FormControl, FormField, FormItem, FormLabel } from '@renderer/components/ui/form'
 import { Input } from '@renderer/components/ui/input'
-import { getClient } from 'db/clientManager'
+import { useForm } from 'react-hook-form'
+import { Button } from '@renderer/components/ui/button'
+
 const formSchema = z.object({
   first_name: z.string().min(2),
   last_name: z.string().optional(),
@@ -23,11 +24,11 @@ const CreateEditClient = (): JSX.Element => {
   const { id } = useParams() // Fetch user..
   const [client, setClient] = useState<IClient | undefined>(undefined)
   const navigate: NavigateFunction = useNavigate()
-  const handleNavigateHome: MouseEventHandler<HTMLButtonElement> = () => navigate('/')
+  const handleNavigateClients: MouseEventHandler<HTMLButtonElement> = () => navigate('/clients')
 
-  useEffect(() => {
-    if (id) setClient(getClient(Number(id)))
-  }, [id])
+  // useEffect(() => {
+  //   if (id) setClient(window.api.getClient(Number(id)))
+  // }, [id])
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -51,6 +52,9 @@ const CreateEditClient = (): JSX.Element => {
 
   return (
     <div>
+      <Button size="icon" onClick={handleNavigateClients}>
+        &larr;
+      </Button>
       <Form {...form}>
         <form onSubmit={form.handleSubmit(onSubmit)}>
           <FormField
@@ -60,7 +64,103 @@ const CreateEditClient = (): JSX.Element => {
               <FormItem>
                 <FormLabel>First Name</FormLabel>
                 <FormControl>
-                  <Input placeholder="First name" {...field} />
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="last_name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Last Name</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="address"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Address</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="zip"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Zip Code</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="company"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Company</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="city"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>City</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="state"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>State</FormLabel>
+                <FormControl>
+                  <Input {...field} />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="phone"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Phone</FormLabel>
+                <FormControl>
+                  <Input {...field} />
                 </FormControl>
               </FormItem>
             )}

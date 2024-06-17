@@ -1,9 +1,9 @@
 import { contextBridge } from 'electron'
 import { electronAPI } from '@electron-toolkit/preload'
-import { listClients, createClient } from '../../db/clientManager'
+import { createClient, getClient, listClients } from '../../db/clientManager'
 
 // Custom APIs for renderer
-const api = { listClients: listClients, createClient: createClient }
+const api = { listClients: listClients, createClient: createClient, getClient: getClient }
 
 // Use `contextBridge` APIs to expose Electron APIs to
 // renderer only if context isolation is enabled, otherwise
