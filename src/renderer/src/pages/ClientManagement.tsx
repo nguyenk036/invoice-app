@@ -18,15 +18,15 @@ const ClientManagement = (): JSX.Element => {
   return (
     <div>
       <button
-        className="fontbo absolute h-10 w-10 rounded-full bg-primary text-primary-foreground"
+        className="absolute w-10 h-10 font-bold rounded-full bg-primary text-primary-foreground"
         onClick={handleNavigateHome}
       >
         &larr;
       </button>
-      <div className="w-full text-center text-3xl text-slate-500">Client Management</div>
+      <div className="w-full text-3xl text-center text-slate-500">Client Management</div>
       <div>
         {clients.map((client, i) => (
-          <div key={i}>{client.first.charAt(0)}</div>
+          <div key={i}>{client.first_name.charAt(0)}</div>
         ))}
       </div>
       <Button onClick={handleNavigateCreateEdit}>Create new client</Button>

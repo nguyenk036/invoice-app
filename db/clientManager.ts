@@ -10,10 +10,20 @@ export const listClients = (): IClient[] => {
   return response
 }
 
-export const createClient = (first: string, last: string, email: string): void => {
-  const query: string = `INSERT INTO Client
-  ("first", "last", email, address, zip, company, city, state, phone)
-  VALUES('', '', '', '', '', '', '', '', '');`
+export const createClient = (client: IClient): void => {
+  const query: string = `INSERT INTO Client 
+    VALUES (
+    "${client.first_name}", 
+    "${client.last_name}", 
+    "${client.email}", 
+    "${client.address}", 
+    "${client.zip}", 
+    "${client.company}", 
+    "${client.city}", 
+    "${client.state}", 
+    "${client.phone}");`
+  console.log(query)
+
   db.exec(query)
 }
 

@@ -10,6 +10,6 @@ declare global {
 
 interface ICustomAPI {
   listClients: () => IClient[]
-  createClient: (first: string, last?: string, email?: string) => void
+  createClient: (client: IClient) => void
   getClient: (id: number) => IClient
 }
