@@ -83,7 +83,6 @@ async function fetchOneFilter<T>(q: SupabaseFilterQuery<T>): Promise<T> {
 // ── Auth helper ───────────────────────────────────────────────
 async function getUserId(): Promise<string> {
   const { data: { user }, error } = await supabase.auth.getUser();
-  console.log(error, user);
   if (error || !user) throw new Error("Not authenticated");
   return user.id;
 }
