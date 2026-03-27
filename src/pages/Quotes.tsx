@@ -26,8 +26,6 @@ import {
   IcMenu,
   IcQuote,
   IcTrash,
-  IcEdit,
-  IcChevron,
   IcAlert,
   IcSend,
   IcSave,

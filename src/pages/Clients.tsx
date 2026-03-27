@@ -285,9 +285,9 @@ function Skeleton({ className }: { className: string }) {
 }
 
 // ── Empty field fallback ───────────────────────────────────────────────────
-function orDash(v: string | null | undefined) {
-  return v || '—';
-}
+// function orDash(v: string | null | undefined) {
+//   return v || '—';
+// }
 
 // ── Nav ────────────────────────────────────────────────────────────────────
 const navItems = [

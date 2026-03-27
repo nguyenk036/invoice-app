@@ -196,7 +196,11 @@ export default function SettingsPage() {
     });
   }
 
-  function handlePresetChange(e: React.ChangeEvent<HTMLInputElement>) {
+  function handlePresetChange(
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
+  ) {
     setPresetForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   }
 

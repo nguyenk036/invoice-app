@@ -10,7 +10,6 @@ import {
   useUpdateInvoice,
   useUpdateInvoiceStatus,
   useDeleteInvoice,
-  useConvertQuoteToInvoice,
 } from '../hooks/useSupabase';
 import type {
   Invoice,
@@ -33,7 +32,6 @@ import {
   IcFile,
   IcTrash,
   IcEdit,
-  IcChevron,
   IcCheck,
   IcAlert,
   IcSend,
