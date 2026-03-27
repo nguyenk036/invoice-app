@@ -457,6 +457,7 @@ export default function QuotesPage() {
     { key: 'accepted', label: 'Accepted' },
     { key: 'declined', label: 'Declined' },
     { key: 'expired', label: 'Expired' },
+    { key: 'converted', label: 'Converted' },
   ];
 
   return (
@@ -682,6 +683,11 @@ export default function QuotesPage() {
                             ? 'Converting…'
                             : 'To invoice'}
                         </button>
+                      )}
+                      {quote.status === 'converted' && (
+                        <span className="flex items-center gap-1 text-[11px] font-medium text-slate-400 bg-slate-50 px-2 py-1 rounded-lg">
+                          <IcCheck s={11} /> Invoiced
+                        </span>
                       )}
                       <button
                         onClick={() => setDeleteTarget(quote as QuoteRow)}

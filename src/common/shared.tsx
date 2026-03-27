@@ -609,6 +609,10 @@ export const quoteStatusConfig: Record<
     label: 'Expired',
     classes: 'bg-amber-50 text-amber-700 ring-1 ring-amber-200',
   },
+  converted: {
+    label: 'Converted',
+    classes: 'bg-violet-50 text-violet-700 ring-1 ring-violet-200',
+  },
 };
 
 export function StatusBadge({

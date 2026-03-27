@@ -368,31 +368,38 @@ export function useConvertQuoteToInvoice() {
     mutationFn: async (quoteId: string) => {
       const uid = await getUserId();
 
-      const quoteWithItems = await fetchOne<QuoteWithDetails>(
-        from<QuoteWithDetails>('quotes')
-          .select('*, line_items(*)')
+      const quote = await fetchOne<Quote>(
+        from<Quote>('quotes')
+          .select('*')
           .eq('id', quoteId)
       );
 
       const invoice = await fetchOne<Invoice>(
         from<Invoice>('invoices').insert({
           profile_id: uid,
-          client_id: quoteWithItems.client_id,
-          quote_id: quoteWithItems.id,
+          client_id: quote.client_id,
+          quote_id: quote.id,
           invoice_number: '',
           status: 'draft',
           issue_date: new Date().toISOString().split('T')[0],
-          tax_rate: quoteWithItems.tax_rate,
-          tax_amount: quoteWithItems.tax_amount,
+          tax_rate: quote.tax_rate,
+          tax_amount: quote.tax_amount,
           discount_amount: 0,
-          subtotal: quoteWithItems.subtotal,
-          total: quoteWithItems.total,
-          notes: quoteWithItems.notes,
+          subtotal: quote.subtotal,
+          total: quote.total,
+          notes: quote.notes,
         })
       );
 
-      if (quoteWithItems.line_items.length > 0) {
-        const rows = quoteWithItems.line_items.map((li) => ({
+      const lineItems = await fetchAll<LineItem>(
+        from<LineItem>('line_items')          
+        .select('*')
+          .eq('parent_id', quoteId)
+          .eq('parent_type', 'quote')
+      )
+
+      if (lineItems.length > 0) {
+        const rows = lineItems.map((li) => ({
           parent_id: invoice.id,
           parent_type: 'invoice' as const,
           preset_id: li.preset_id,
@@ -406,7 +413,7 @@ export function useConvertQuoteToInvoice() {
       }
 
       await from<Quote>('quotes')
-        .update({ status: 'accepted' })
+        .update({ status: 'converted' })
         .eq('id', quoteId);
 
       return invoice;

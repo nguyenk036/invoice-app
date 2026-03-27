@@ -9,7 +9,8 @@ export type QuoteStatus =
   | 'sent'
   | 'accepted'
   | 'declined'
-  | 'expired';
+  | 'expired'
+  | 'converted';
 export type InvoiceStatus = 'draft' | 'sent' | 'paid' | 'overdue' | 'cancelled';
 export type LineItemParent = 'quote' | 'invoice';
 
