@@ -306,7 +306,7 @@ export const IcConvert = ({ s = 14 }: { s?: number }) => (
 export const navItems = [
   { id: 'home', label: 'Home', icon: <IcHome />, path: '/' },
   { id: 'invoices', label: 'Invoices', icon: <IcFile />, path: '/invoices' },
-  { id: 'quotes', label: 'Quotes', icon: <IcQuote />, path: '/quotes' },
+  { id: 'quotes', label: 'Estimates', icon: <IcQuote />, path: '/quotes' },
   { id: 'clients', label: 'Clients', icon: <IcUser />, path: '/clients' },
   {
     id: 'settings',
@@ -327,6 +327,8 @@ export function Sidebar({
   onClose: () => void;
 }) {
   const navigate = useNavigate();
+  const { data: profile, isLoading: profileLoading } = useProfile();
+
   return (
     <aside
       className={`
@@ -380,6 +382,37 @@ export function Sidebar({
           </button>
         ))}
       </nav>
+
+      <div className="px-4 py-4 border-t border-slate-100">
+        {profileLoading ? (
+          <div className="flex items-center gap-3">
+            <Skeleton className="w-8 h-8 rounded-full" />
+            <div className="space-y-1.5">
+              <Skeleton className="w-24 h-3" />
+              <Skeleton className="w-32 h-2.5" />
+            </div>
+          </div>
+        ) : (
+          <div className="flex items-center gap-3">
+            <div className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 text-xs font-bold shrink-0">
+              {profile?.full_name
+                ?.split(' ')
+                .map((n) => n[0])
+                .join('')
+                .slice(0, 2)
+                .toUpperCase() ?? '??'}
+            </div>
+            <div className="min-w-0">
+              <div className="text-slate-700 text-xs font-semibold truncate">
+                {profile?.full_name ?? '—'}
+              </div>
+              <div className="text-slate-400 text-[11px] truncate">
+                {profile?.business_name ?? profile?.email ?? '—'}
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </aside>
   );
 }
@@ -447,6 +480,7 @@ export function PageShell({
 
 // Need React for JSX in this file
 import React from 'react';
+import { useProfile } from '../hooks/useSupabase';
 
 // ── Form field ────────────────────────────────────────────────
 export function Field({

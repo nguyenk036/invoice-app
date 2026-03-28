@@ -8,6 +8,7 @@ import {
   useInvoices,
 } from '../hooks/useSupabase';
 import type { Client } from '../types';
+import { Sidebar } from '../common/shared';
 
 // ── Helpers ────────────────────────────────────────────────────────────────
 function initials(name: string) {
@@ -844,59 +845,11 @@ export default function ClientsPage() {
       )}
 
       {/* ── Sidebar ─────────────────────────────────────────── */}
-      <aside
-        className={`
-        fixed top-0 left-0 h-full z-40 w-60 bg-white border-r border-slate-100
-        flex flex-col transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:z-auto
-        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}
-      >
-        <div className="px-5 py-5 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-sky-500 flex items-center justify-center text-white shrink-0">
-              <IcCamera />
-            </div>
-            <div>
-              <div className="text-slate-800 text-sm font-semibold leading-none">
-                LensInvoice
-              </div>
-              <div className="text-slate-400 text-[11px] mt-0.5">
-                Photography billing
-              </div>
-            </div>
-          </div>
-          <button
-            className="lg:hidden text-slate-400 hover:text-slate-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <IcX />
-          </button>
-        </div>
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-3 mb-2">
-            Menu
-          </p>
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => {
-                setMobileOpen(false);
-                navigate(item.path);
-              }}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all text-left
-                ${
-                  item.id === 'clients'
-                    ? 'bg-sky-500 text-white shadow-sm shadow-sky-200'
-                    : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-            >
-              <span className="shrink-0">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </nav>
-      </aside>
+      <Sidebar
+        activeId="clients"
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
 
       {/* ── Main ────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0">

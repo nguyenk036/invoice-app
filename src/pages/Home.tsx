@@ -7,6 +7,7 @@ import {
   useUpdateInvoiceStatus,
 } from '../hooks/useSupabase';
 import type { InvoiceStatus } from '../types';
+import { Sidebar } from '../common/shared';
 
 // ── Status config ──────────────────────────────────────────────────────────
 const statusConfig: Record<InvoiceStatus, { label: string; classes: string }> =
@@ -220,7 +221,7 @@ function Skeleton({ className }: { className: string }) {
 const navItems = [
   { id: 'home', label: 'Home', icon: <IcHome />, path: '/' },
   { id: 'invoices', label: 'Invoices', icon: <IcFile />, path: '/invoices' },
-  { id: 'quotes', label: 'Quotes', icon: <IcQuote />, path: '/quotes' },
+  { id: 'quotes', label: 'Estimates', icon: <IcQuote />, path: '/quotes' },
   { id: 'clients', label: 'Clients', icon: <IcUser />, path: '/clients' },
   {
     id: 'settings',
@@ -233,25 +234,25 @@ const navItems = [
 // ── Quick actions ──────────────────────────────────────────────────────────
 const quickActions = [
   {
-    label: 'New invoice',
-    sub: 'Bill a client',
-    icon: <IcFile size={15} />,
-    color: 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
-    path: '/invoices/new',
-  },
-  {
-    label: 'New quote',
+    label: 'Estimates',
     sub: 'Send a proposal',
     icon: <IcQuote size={15} />,
     color: 'bg-indigo-50 text-indigo-600 ring-1 ring-indigo-200',
-    path: '/quotes/new',
+    path: '/quotes',
   },
   {
-    label: 'Add client',
+    label: 'Invoices',
+    sub: 'Bill a client',
+    icon: <IcFile size={15} />,
+    color: 'bg-sky-50 text-sky-600 ring-1 ring-sky-200',
+    path: '/invoices',
+  },
+  {
+    label: 'Clients',
     sub: 'Save contact',
     icon: <IcUser size={15} />,
     color: 'bg-slate-100 text-slate-500 ring-1 ring-slate-200',
-    path: '/clients/new',
+    path: '/clients',
   },
 ];
 
@@ -264,7 +265,7 @@ export default function HomePage() {
   const [mobileOpen, setMobileOpen] = useState(false);
 
   // ── Queries ──────────────────────────────────────────────────
-  const { data: profile, isLoading: profileLoading } = useProfile();
+  const { data: profile } = useProfile();
   const { data: stats, isLoading: statsLoading } = useDashboardStats();
   const { data: invoices, isLoading: invoicesLoading } = useInvoices();
   const updateStatus = useUpdateInvoiceStatus();
@@ -336,91 +337,11 @@ export default function HomePage() {
       )}
 
       {/* ── Sidebar ───────────────────────────────────────────── */}
-      <aside
-        className={`
-        fixed top-0 left-0 h-full z-40 w-60 bg-white border-r border-slate-100
-        flex flex-col transition-transform duration-300 ease-in-out
-        lg:translate-x-0 lg:static lg:z-auto
-        ${mobileOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}
-      >
-        {/* Logo */}
-        <div className="px-5 py-5 border-b border-slate-100 flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-xl bg-sky-500 flex items-center justify-center text-white shrink-0">
-              <IcCamera size={16} />
-            </div>
-            <div>
-              <div className="text-slate-800 text-sm font-semibold leading-none">
-                LensInvoice
-              </div>
-              <div className="text-slate-400 text-[11px] mt-0.5">
-                Photography billing
-              </div>
-            </div>
-          </div>
-          <button
-            className="lg:hidden text-slate-400 hover:text-slate-600"
-            onClick={() => setMobileOpen(false)}
-          >
-            <IcX size={18} />
-          </button>
-        </div>
-
-        {/* Nav */}
-        <nav className="flex-1 px-3 py-4 space-y-0.5 overflow-y-auto">
-          <p className="text-[10px] font-semibold text-slate-400 uppercase tracking-widest px-3 mb-2">
-            Menu
-          </p>
-          {navItems.map((item) => (
-            <button
-              key={item.id}
-              onClick={() => handleNav(item.path, item.id)}
-              className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-150 text-left
-                ${
-                  activeNav === item.id
-                    ? 'bg-sky-500 text-white shadow-sm shadow-sky-200'
-                    : 'text-slate-500 hover:text-slate-800 hover:bg-slate-50'
-                }`}
-            >
-              <span className="shrink-0">{item.icon}</span>
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        {/* User */}
-        <div className="px-4 py-4 border-t border-slate-100">
-          {profileLoading ? (
-            <div className="flex items-center gap-3">
-              <Skeleton className="w-8 h-8 rounded-full" />
-              <div className="space-y-1.5">
-                <Skeleton className="w-24 h-3" />
-                <Skeleton className="w-32 h-2.5" />
-              </div>
-            </div>
-          ) : (
-            <div className="flex items-center gap-3">
-              <div className="w-8 h-8 rounded-full bg-sky-100 flex items-center justify-center text-sky-700 text-xs font-bold shrink-0">
-                {profile?.full_name
-                  ?.split(' ')
-                  .map((n) => n[0])
-                  .join('')
-                  .slice(0, 2)
-                  .toUpperCase() ?? '??'}
-              </div>
-              <div className="min-w-0">
-                <div className="text-slate-700 text-xs font-semibold truncate">
-                  {profile?.full_name ?? '—'}
-                </div>
-                <div className="text-slate-400 text-[11px] truncate">
-                  {profile?.business_name ?? profile?.email ?? '—'}
-                </div>
-              </div>
-            </div>
-          )}
-        </div>
-      </aside>
+      <Sidebar
+        activeId={activeNav}
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+      />
 
       {/* ── Main ──────────────────────────────────────────────── */}
       <div className="flex-1 flex flex-col min-w-0">
@@ -447,29 +368,12 @@ export default function HomePage() {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <button
-              onClick={() => navigate('/quotes/new')}
-              className="hidden sm:flex items-center gap-1.5 px-3.5 py-2 rounded-xl border border-slate-200 text-slate-600 text-sm font-medium hover:border-sky-300 hover:text-sky-600 transition-all"
-            >
-              <IcQuote size={14} />
-              New quote
-            </button>
-            <button
-              onClick={() => navigate('/invoices/new')}
-              className="flex items-center gap-1.5 px-3.5 py-2 rounded-xl bg-sky-500 text-white text-sm font-medium hover:bg-sky-600 transition-all shadow-sm shadow-sky-200"
-            >
-              <IcPlus size={14} />
-              <span className="hidden xs:inline">New invoice</span>
-              <span className="xs:hidden">Invoice</span>
-            </button>
-          </div>
         </header>
 
         {/* Content */}
         <main className="flex-1 px-4 sm:px-6 lg:px-8 py-6 space-y-6 max-w-7xl w-full mx-auto">
           {/* Quick actions */}
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             {quickActions.map((a) => (
               <button
                 key={a.label}
