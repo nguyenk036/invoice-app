@@ -33,10 +33,15 @@ function from<T extends object>(table: string) {
   return (db as any).from(table) as SupabaseTable<T>;
 }
 
+interface InsertQuery<T> {
+  select(cols?: string): SupabaseQuery<T>;
+  then: Promise<{ data: T[] | null; error: Error | null }>["then"];
+}
+
 // Minimal typed surface for the operations we actually use.
 interface SupabaseTable<T extends object> {
   select(cols?: string): SupabaseQuery<T>;
-  insert(row: Partial<T> | Partial<T>[]): SupabaseQuery<T>;
+  insert(row: Partial<T> | Partial<T>[]): InsertQuery<T>;
   update(row: Partial<T>): SupabaseFilterQuery<T>;
   delete(): SupabaseFilterQuery<T>;
   upsert(row: Partial<T>): SupabaseQuery<T>;
@@ -72,6 +77,13 @@ async function fetchAll<T>(q: SupabaseQuery<T>): Promise<T[]> {
 // Helper: execute a SupabaseQuery.single() and return one row
 async function fetchOne<T>(q: SupabaseQuery<T>): Promise<T> {
   const { data, error } = await q.single();
+  if (error) throw error;
+  return data;
+}
+
+// Helper: execute an InsertQuery.select().single() and return one row
+async function fetchOneInsert<T>(q: InsertQuery<T>): Promise<T> {
+  const { data, error } = await q.select().single();
   if (error) throw error;
   return data;
 }
@@ -185,7 +197,7 @@ export function useCreateClient() {
       input: Omit<Client, 'id' | 'created_at' | 'updated_at' | 'profile_id'>
     ) => {
       const uid = await getUserId();
-      return fetchOne<Client>(
+      return fetchOneInsert<Client>(
         from<Client>('clients').insert({ ...input, profile_id: uid })
       );
     },
@@ -237,7 +249,7 @@ export function useCreatePreset() {
   return useMutation({
     mutationFn: async (input: Omit<PricingPreset, 'id' | 'created_at'>) => {
       const uid = await getUserId();
-      return fetchOne<PricingPreset>(
+      return fetchOneInsert<PricingPreset>(
         from<PricingPreset>('pricing_presets').insert({
           ...input,
           profile_id: uid,
@@ -302,7 +314,7 @@ export function useCreateQuote() {
       const { line_items, ...rest } = form;
       const totals = computeTotals(line_items, rest.tax_rate);
 
-      const quote = await fetchOne<Quote>(
+      const quote = await fetchOneInsert<Quote>(
         from<Quote>('quotes').insert({
           ...rest,
           profile_id: uid,
@@ -310,6 +322,8 @@ export function useCreateQuote() {
           ...totals,
         })
       );
+
+      console.log(quote);
 
       if (line_items.length > 0) {
         const rows = line_items.map((li, i) => ({
@@ -374,7 +388,7 @@ export function useConvertQuoteToInvoice() {
           .eq('id', quoteId)
       );
 
-      const invoice = await fetchOne<Invoice>(
+      const invoice = await fetchOneInsert<Invoice>(
         from<Invoice>('invoices').insert({
           profile_id: uid,
           client_id: quote.client_id,
@@ -470,7 +484,7 @@ export function useCreateInvoice() {
         rest.discount_amount
       );
 
-      const invoice = await fetchOne<Invoice>(
+      const invoice = await fetchOneInsert<Invoice>(
         from<Invoice>('invoices').insert({
           ...rest,
           profile_id: uid,
