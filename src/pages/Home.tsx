@@ -52,21 +52,6 @@ function fmtDate(iso: string) {
 }
 
 // ── Icons ──────────────────────────────────────────────────────────────────
-const IcCamera = ({ size = 20 }: { size?: number }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.7"
-    strokeLinecap="round"
-    strokeLinejoin="round"
-  >
-    <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z" />
-    <circle cx="12" cy="13" r="4" />
-  </svg>
-);
 const IcFile = ({ size = 16 }: { size?: number }) => (
   <svg
     width={size}
@@ -194,19 +179,6 @@ const IcMenu = ({ size = 20 }: { size?: number }) => (
     strokeLinecap="round"
   >
     <path d="M3 12h18M3 6h18M3 18h18" />
-  </svg>
-);
-const IcX = ({ size = 20 }: { size?: number }) => (
-  <svg
-    width={size}
-    height={size}
-    viewBox="0 0 24 24"
-    fill="none"
-    stroke="currentColor"
-    strokeWidth="1.8"
-    strokeLinecap="round"
-  >
-    <path d="M18 6L6 18M6 6l12 12" />
   </svg>
 );
 
