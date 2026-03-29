@@ -35,7 +35,7 @@ function from<T extends object>(table: string) {
 
 interface InsertQuery<T> {
   select(cols?: string): SupabaseQuery<T>;
-  then: Promise<{ data: T[] | null; error: Error | null }>["then"];
+  then: Promise<{ data: T[] | null; error: Error | null }>['then'];
 }
 
 // Minimal typed surface for the operations we actually use.
@@ -383,9 +383,7 @@ export function useConvertQuoteToInvoice() {
       const uid = await getUserId();
 
       const quote = await fetchOne<Quote>(
-        from<Quote>('quotes')
-          .select('*')
-          .eq('id', quoteId)
+        from<Quote>('quotes').select('*').eq('id', quoteId)
       );
 
       const invoice = await fetchOneInsert<Invoice>(
@@ -406,11 +404,11 @@ export function useConvertQuoteToInvoice() {
       );
 
       const lineItems = await fetchAll<LineItem>(
-        from<LineItem>('line_items')          
-        .select('*')
+        from<LineItem>('line_items')
+          .select('*')
           .eq('parent_id', quoteId)
           .eq('parent_type', 'quote')
-      )
+      );
 
       if (lineItems.length > 0) {
         const rows = lineItems.map((li) => ({
@@ -463,12 +461,24 @@ export function useInvoice(id: string) {
   return useQuery<InvoiceWithDetails>({
     queryKey: keys.invoice(id),
     enabled: !!id,
-    queryFn: () =>
-      fetchOne<InvoiceWithDetails>(
-        from<InvoiceWithDetails>('invoices')
-          .select('*, client:clients(*), line_items(*), quote:quotes(*)')
+    queryFn: async () => {
+      const invoice = await fetchOne<Invoice>(
+        from<Invoice>('invoices')
+          .select('*, client:clients(*), quote:quotes(*)')
           .eq('id', id)
-      ),
+      );
+      const lineItems = await fetchAll<LineItem>(
+        from<LineItem>('line_items')
+          .select('*')
+          .eq('parent_id', id)
+          .eq('parent_type', 'invoice')
+      );
+
+      return {
+        ...invoice,
+        line_items: lineItems,
+      } as InvoiceWithDetails;
+    },
   });
 }
 

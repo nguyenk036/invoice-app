@@ -10,6 +10,7 @@ import ClientsPage from './pages/Clients';
 import Invoices from './pages/Invoices';
 import Quotes from './pages/Quotes';
 import Settings from './pages/Settings';
+import InvoiceDetailPage from './pages/InvoiceDetails';
 
 const queryClient = new QueryClient();
 
@@ -84,6 +85,14 @@ export default function App() {
             element={
               <AuthGuard>
                 <Settings />
+              </AuthGuard>
+            }
+          />
+          <Route
+            path="/invoices/:id"
+            element={
+              <AuthGuard>
+                <InvoiceDetailPage />
               </AuthGuard>
             }
           />
